@@ -1,2 +1,7 @@
 ---
-# roles/ansible_role_template/handlers/main.yml
+# roles/ansible_role_dockerhost/handlers/main.yml
+
+- name: Restart Docker
+  ansible.builtin.service:
+    name: docker
+    state: restarted

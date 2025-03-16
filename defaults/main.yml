@@ -1,2 +1,12 @@
 ---
-# roles/ansible_role_template/defaults/main.yml
+# roles/ansible_role_dockerhost/defaults/main.yml
+
+ansible_role_dockerhost_repo_url: "https://download.docker.com/linux/ubuntu"
+ansible_role_dockerhost_gpg_key_url: "https://download.docker.com/linux/ubuntu/gpg"
+ansible_role_dockerhost_packages:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-compose-plugin
+ansible_role_dockerhost_release_channel: "stable"
+

@@ -1,9 +1,19 @@
 ---
-# roles/ansible_role_template/meta/main.yml
+# roles/ansible_role_dockerhost/meta/main.yml
 
 galaxy_info:
+  role_name: dockerhost
   author: Max Bergmann
-  description: An Ansible role template
+  description: Install Docker Engine, CLI and Docker Compose v2 from Docker's official repository on APT-based systems.
   license: MIT
   min_ansible_version: "2.9"
+  galaxy_tags:
+    - docker
+    - docker-compose
+    - debian
+    - ubuntu
+    - apt
+    - cli
+    - container
+
 dependencies: []
