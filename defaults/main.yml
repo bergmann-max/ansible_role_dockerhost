@@ -9,4 +9,4 @@ ansible_role_dockerhost_packages:
   - containerd.io
   - docker-compose-plugin
 ansible_role_dockerhost_release_channel: "stable"
-
+ansible_role_dockerhost_package_state: "present"

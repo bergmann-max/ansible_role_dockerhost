@@ -53,7 +53,12 @@
 
     - name: Set up Docker repository
       ansible.builtin.apt_repository:
-        repo: "deb [arch={{ ansible_role_dockerhost_architecture }} signed-by=/etc/apt/keyrings/docker.asc] {{ ansible_role_dockerhost_repo_url }} {{ ansible_lsb.codename }} {{ ansible_role_dockerhost_release_channel }}"
+        repo: >-
+          deb [arch={{ ansible_role_dockerhost_architecture }}
+          signed-by=/etc/apt/keyrings/docker.asc]
+          {{ ansible_role_dockerhost_repo_url }}
+          {{ ansible_lsb.codename }}
+          {{ ansible_role_dockerhost_release_channel }}
         state: present
         filename: docker
 
@@ -77,7 +82,7 @@
     - name: Install Docker Engine, CLI, Compose Plugin
       ansible.builtin.apt:
         name: "{{ ansible_role_dockerhost_packages }}"
-        state: latest
+        state: "{{ ansible_role_dockerhost_package_state }}"
 
     - name: Ensure Docker service is enabled and running
       ansible.builtin.service:
