@@ -7,7 +7,7 @@
     - name: Fail if system is not APT-based
       ansible.builtin.assert:
         that:
-          - ansible_os_family == 'Debian'
+          - ansible_facts["os_family"] == 'Debian'
         fail_msg: "This role only supports Debian/Ubuntu APT-based systems!"
 
     - name: Install required APT packages
@@ -49,7 +49,7 @@
 
     - name: Determine Docker architecture dynamically
       ansible.builtin.set_fact:
-        ansible_role_dockerhost_architecture: "{{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }}"
+        ansible_role_dockerhost_architecture: "{{ 'arm64' if ansible_facts['architecture'] == 'aarch64' else 'amd64' }}"
 
     - name: Set up Docker repository
       ansible.builtin.apt_repository:
@@ -57,7 +57,7 @@
           deb [arch={{ ansible_role_dockerhost_architecture }}
           signed-by=/etc/apt/keyrings/docker.asc]
           {{ ansible_role_dockerhost_repo_url }}
-          {{ ansible_lsb.codename }}
+          {{ ansible_facts['lsb']['codename'] }}
           {{ ansible_role_dockerhost_release_channel }}
         state: present
         filename: docker
