@@ -2,7 +2,7 @@
 
 ![Ansible](https://img.shields.io/badge/ansible-ready-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-Debian%2FUbuntu-lightgrey)
-![License](https://img.shields.io/badge/license-MIT-green)
+![License](https://img.shields.io/badge/license-Unlicense-green)
 
 ## Description
 
@@ -21,7 +21,8 @@ It uses the **official Docker repository**, ensuring the latest stable versions.
 
 ## Supported Platforms
 
-Any APT-based system should work as long as the Docker official repository is compatible.
+- Debian-based systems (Debian, Ubuntu)
+- Architectures: `amd64`, `arm64` (automatically detected)
 
 ---
 
@@ -33,6 +34,7 @@ Any APT-based system should work as long as the Docker official repository is co
 | `ansible_role_dockerhost_gpg_key_url`         | `https://download.docker.com/linux/ubuntu/gpg`   | URL to Docker's GPG key                      |
 | `ansible_role_dockerhost_packages`            | `[docker-ce, docker-ce-cli, containerd.io, docker-compose-plugin]` | Docker packages to install |
 | `ansible_role_dockerhost_release_channel`     | `stable`                                         | Docker release channel (e.g., stable, nightly)|
+| `ansible_role_dockerhost_package_state`       | `present`                                        | Package state (present, latest)              |
 
 > **Note:**  
 > The role dynamically detects system architecture and adjusts repository config automatically (`amd64`, `arm64`).
@@ -46,7 +48,7 @@ Any APT-based system should work as long as the Docker official repository is co
   hosts: all
   become: true
   roles:
-    - role: dockerhost
+    - role: ansible_role_dockerhost
 ```
 
 ---
@@ -70,9 +72,17 @@ Ensuring successful installation on the target host.
 
 ---
 
+## Handlers
+
+| Handler         | Description                    |
+|----------------|--------------------------------|
+| Restart Docker | Restarts the Docker service    |
+
+---
+
 ## License
 
-MIT
+Unlicense
 
 ---
 
