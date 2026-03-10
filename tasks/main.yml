@@ -40,12 +40,12 @@
     - name: Check Docker key exists
       ansible.builtin.stat:
         path: /etc/apt/keyrings/docker.asc
-      register: docker_key
+      register: ansible_role_dockerhost_docker_key
 
     - name: Fail if Docker GPG key missing
       ansible.builtin.fail:
         msg: "Docker GPG Key not found!"
-      when: not docker_key.stat.exists
+      when: not ansible_role_dockerhost_docker_key.stat.exists
 
     - name: Determine Docker architecture dynamically
       ansible.builtin.set_fact:
@@ -96,20 +96,20 @@
   block:
     - name: Check Docker CLI version
       ansible.builtin.command: docker --version
-      register: docker_version_output
+      register: ansible_role_dockerhost_docker_version_output
       changed_when: false
-      failed_when: docker_version_output.rc != 0
+      failed_when: ansible_role_dockerhost_docker_version_output.rc != 0
 
     - name: Display Docker CLI version
       ansible.builtin.debug:
-        msg: "Docker CLI Version: {{ docker_version_output.stdout }}"
+        msg: "Docker CLI Version: {{ ansible_role_dockerhost_docker_version_output.stdout }}"
 
     - name: Check Docker Compose plugin version
       ansible.builtin.command: docker compose version
-      register: compose_version_output
+      register: ansible_role_dockerhost_compose_version_output
       changed_when: false
-      failed_when: compose_version_output.rc != 0
+      failed_when: ansible_role_dockerhost_compose_version_output.rc != 0
 
     - name: Display Docker Compose plugin version
       ansible.builtin.debug:
-        msg: "Docker Compose Plugin Version: {{ compose_version_output.stdout }}"
+        msg: "Docker Compose Plugin Version: {{ ansible_role_dockerhost_compose_version_output.stdout }}"
