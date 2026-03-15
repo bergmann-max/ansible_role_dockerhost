@@ -1,7 +1,7 @@
 # Ansible Role: dockerhost
 
-![Ansible](https://img.shields.io/badge/ansible-ready-blue.svg)
-![Platform](https://img.shields.io/badge/platform-Debian%2FUbuntu-lightgrey)
+![Ansible](https://img.shields.io/badge/ansible-%3E%3D%202.9-blue)
+![Platform](https://img.shields.io/badge/platform-Ubuntu-lightgrey)
 ![License](https://img.shields.io/badge/license-Unlicense-green)
 
 ## Description

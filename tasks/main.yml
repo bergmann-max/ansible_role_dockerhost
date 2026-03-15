@@ -79,7 +79,7 @@
 - name: Install Docker
   tags: docker
   block:
-    - name: Install Docker Engine, CLI, Compose Plugin
+    - name: Install Docker packages
       ansible.builtin.apt:
         name: "{{ ansible_role_dockerhost_packages }}"
         state: "{{ ansible_role_dockerhost_package_state }}"
