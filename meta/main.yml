@@ -3,8 +3,14 @@
 
 galaxy_info:
   author: Max Bergmann
-  description: Install Docker Engine, CLI and Docker Compose v2 from Docker's official repository on APT-based systems.
-  license: Unlicens
-  min_ansible_version: "2.9"
-
+  description: Install Docker Engine, CLI and Docker Compose v2
+  license: Unlicense
+  min_ansible_version: "2.10"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+  galaxy_tags:
+    - docker
+    - dockercompose
 dependencies: []

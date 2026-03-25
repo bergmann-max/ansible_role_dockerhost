@@ -1,0 +1,6 @@
+---
+# ansible_role_dockerhost/vars/main.yml
+
+ansible_role_dockerhost_architecture_map:
+  x86_64: amd64
+  aarch64: arm64

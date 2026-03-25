@@ -2,14 +2,8 @@
 # roles/ansible_role_dockerhost/tasks/main.yml
 
 - name: Docker APT Repository Setup
-  tags: docker
+  tags: docker_repository
   block:
-    - name: Fail if system is not APT-based
-      ansible.builtin.assert:
-        that:
-          - ansible_facts["os_family"] == 'Debian'
-        fail_msg: "This role only supports Debian/Ubuntu APT-based systems!"
-
     - name: Install required APT packages
       ansible.builtin.apt:
         name:
@@ -47,14 +41,18 @@
         msg: "Docker GPG Key not found!"
       when: not ansible_role_dockerhost_docker_key.stat.exists
 
-    - name: Determine Docker architecture dynamically
-      ansible.builtin.set_fact:
-        ansible_role_dockerhost_architecture: "{{ 'arm64' if ansible_facts['architecture'] == 'aarch64' else 'amd64' }}"
+    - name: Assert Docker architecture is supported
+      ansible.builtin.assert:
+        that:
+          - ansible_facts['architecture'] in ansible_role_dockerhost_architecture_map
+        fail_msg: >-
+          Unsupported architecture '{{ ansible_facts["architecture"] }}'.
+          Supported architectures: {{ ansible_role_dockerhost_architecture_map.keys() | sort | join(', ') }}
 
     - name: Set up Docker repository
       ansible.builtin.apt_repository:
         repo: >-
-          deb [arch={{ ansible_role_dockerhost_architecture }}
+          deb [arch={{ ansible_role_dockerhost_architecture_map[ansible_facts['architecture']] }}
           signed-by=/etc/apt/keyrings/docker.asc]
           {{ ansible_role_dockerhost_repo_url }}
           {{ ansible_facts['lsb']['codename'] }}
@@ -77,22 +75,15 @@
       failed_when: false
 
 - name: Install Docker
-  tags: docker
+  tags: docker_install
   block:
     - name: Install Docker packages
       ansible.builtin.apt:
         name: "{{ ansible_role_dockerhost_packages }}"
         state: "{{ ansible_role_dockerhost_package_state }}"
 
-    - name: Ensure Docker service is enabled and running
-      ansible.builtin.service:
-        name: docker
-        state: started
-        enabled: true
-      notify: Restart Docker
-
 - name: Sanity Checks - Verify Docker Installation
-  tags: docker
+  tags: docker_check
   block:
     - name: Check Docker CLI version
       ansible.builtin.command: docker --version
